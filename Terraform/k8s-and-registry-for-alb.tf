@@ -229,6 +229,6 @@ output "key-json" {
     "public_key" : "${yandex_iam_service_account_key.sa-auth-key.public_key}",
     "private_key" : "${yandex_iam_service_account_key.sa-auth-key.private_key}"
   })
-  sensitive = true
+  sensitive = false
 }
 
