@@ -219,3 +219,18 @@ resource "local_sensitive_file" "key-json" {
   })
   filename = "key.json"
 }
+
+variable "key_json_data" {
+  description = "JSON data for the key"
+  type        = string
+  default     = <<EOT
+{
+  "id" : yandex_iam_service_account_key.sa-auth-key.id,
+  "service_account_id" : yandex_iam_service_account.sa-alb.id,
+  "created_at" : yandex_iam_service_account_key.sa-auth-key.created_at,
+  "key_algorithm" : yandex_iam_service_account_key.sa-auth-key.key_algorithm,
+  "public_key" : yandex_iam_service_account_key.sa-auth-key.public_key,
+  "private_key" : yandex_iam_service_account_key.sa-auth-key.private_key
+}
+EOT
+}

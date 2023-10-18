@@ -9,7 +9,7 @@ yc resource-manager folder list
 
 yc managed-kubernetes cluster list --folder-id b1gnjt4tv12ioq5lvflm 
 Смотрим кластера к8с
-yc managed-kubernetes cluster get-credentials k8s-regional --external --folder-id b1gnjt4tv12ioq5lvflm
+yc managed-kubernetes cluster get-credentials k8s-regional --external --folder-id b1gnjt4tv12ioq5lvflm --folder-id b1gnjt4tv12ioq5lvflm 
 Получаем конфиг для внешнего подключения
 kubectl cluster-info 
 Kubernetes control plane is running at https://51.250.25.157
@@ -26,7 +26,7 @@ https://teletype.in/@cameda/3n75CiuRGB-?ysclid=lmwhr2k5hk738596468
 https://teletype.in/@cameda/NGvCl3lZrgB
 
 
-yc managed-kubernetes cluster get-credentials k8s-regional --external 
+yc managed-kubernetes cluster get-credentials k8s-regional --external --folder-id b1gnjt4tv12ioq5lvflm 
 
 export HELM_EXPERIMENTAL_OCI=1 && \
 cat key.json | helm registry login cr.yandex --username 'json_key' --password-stdin && \
@@ -36,7 +36,7 @@ helm pull oci://cr.yandex/yc-marketplace/yandex-cloud/yc-alb-ingress/yc-alb-ingr
 helm install \
   --namespace alb \
   --create-namespace \
-  --set folderId=b1g4152c4kqrduv0rh7d \
+  --set folderId=b1gnjt4tv12ioq5lvflm \
   --set clusterId=catqsvjdbcss9kdbscee \
   --set-file saKeySecretKey=key.json \
   yc-alb-ingress-controller ./yc-alb-ingress-controller-chart/ && \
