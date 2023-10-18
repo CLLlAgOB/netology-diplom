@@ -220,10 +220,13 @@ resource "local_sensitive_file" "key-json" {
   filename = "key.json"
 }
 
-data "local_file" "key_json" {
-  filename = "${path.module}/key.json"
-}
-
-output "key_json_content" {
-  value = data.local_file.key_json.content
+output "key-json" {
+  value = jsonencode({
+    id = yandex_iam_service_account_key.sa-auth-key.id
+    service_account_id = yandex_iam_service_account.sa-alb.id
+    created_at = yandex_iam_service_account_key.sa-auth-key.created_at
+    key_algorithm = yandex_iam_service_account_key.sa-auth-key.key_algorithm
+    public_key = yandex_iam_service_account_key.sa-auth-key.public_key
+    private_key = yandex_iam_service_account_key.sa-auth-key.private_key
+  })
 }
