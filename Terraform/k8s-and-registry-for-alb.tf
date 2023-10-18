@@ -222,12 +222,11 @@ resource "local_sensitive_file" "key-json" {
 
 output "key-json" {
   value = nonsensitive(jsonencode({
-    "id" : yandex_iam_service_account_key.sa-auth-key.id,
-    "service_account_id" : yandex_iam_service_account.sa-alb.id,
-    "created_at" : yandex_iam_service_account_key.sa-auth-key.created_at,
-    "key_algorithm" : yandex_iam_service_account_key.sa-auth-key.key_algorithm,
-    "public_key" : yandex_iam_service_account_key.sa-auth-key.public_key,
-    "private_key" : yandex_iam_service_account_key.sa-auth-key.private_key,
-    "token_value" : tfe_team_token.test.token
+    "id" : "${yandex_iam_service_account_key.sa-auth-key.id}",
+    "service_account_id" : "${yandex_iam_service_account.sa-alb.id}",
+    "created_at" : "${yandex_iam_service_account_key.sa-auth-key.created_at}",
+    "key_algorithm" : "${yandex_iam_service_account_key.sa-auth-key.key_algorithm}",
+    "public_key" : "${yandex_iam_service_account_key.sa-auth-key.public_key}",
+    "private_key" : "${yandex_iam_service_account_key.sa-auth-key.private_key}"
   }))
 }
