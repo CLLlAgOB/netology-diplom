@@ -1,0 +1,10 @@
+apiVersion: qbec.io/v1alpha1
+kind: App
+metadata:
+  name: ingress
+spec:
+  environments:
+    default:
+      defaultNamespace: default
+      server: https://158.160.99.137
+  vars: {}

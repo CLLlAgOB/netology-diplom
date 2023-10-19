@@ -12,3 +12,8 @@ EXPOSE 80
 
 # CMD определяет команду, которая будет выполнена при запуске контейнера
 CMD ["nginx", "-g", "daemon off;"]
+
+#docker build -t nginxnetology:v0.1 
+#docker login
+#docker tag nginxnetology:v0.1 clllagob/nginxnetology:v0.1
+#docker push clllagob/nginxnetology:v0.1

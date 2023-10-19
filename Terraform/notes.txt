@@ -1,0 +1,48 @@
+yc resource-manager folder list
++----------------------+----------------+--------+--------+
+|          ID          |      NAME      | LABELS | STATUS |
++----------------------+----------------+--------+--------+
+| b1g4152c4kqrduv0rh7d | default        |        | ACTIVE |
+| b1gnjt4tv12ioq5lvflm | netology-prod  |        | ACTIVE |
+| b1gs5td5emklj2psfa0m | netology-stage |        | ACTIVE |
++----------------------+----------------+--------+--------+
+
+yc managed-kubernetes cluster list --folder-id b1gnjt4tv12ioq5lvflm 
+Смотрим кластера к8с
+yc managed-kubernetes cluster get-credentials k8s-regional --external --folder-id b1gnjt4tv12ioq5lvflm --folder-id b1gnjt4tv12ioq5lvflm 
+Получаем конфиг для внешнего подключения
+kubectl cluster-info 
+Kubernetes control plane is running at https://51.250.25.157
+CoreDNS is running at https://51.250.25.157/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+
+
+
+
+Полезные ссылки:
+https://github.com/yandex-cloud/examples/blob/master/tutorials/terraform/managed-kubernetes/k8s-and-registry-for-alb.tf
+https://cloud.yandex.ru/docs/managed-kubernetes/operations/applications/alb-ingress-controller
+https://teletype.in/@cameda/3n75CiuRGB-?ysclid=lmwhr2k5hk738596468
+https://teletype.in/@cameda/NGvCl3lZrgB
+
+
+yc managed-kubernetes cluster get-credentials k8s-regional --external --folder-id b1gnjt4tv12ioq5lvflm 
+
+export HELM_EXPERIMENTAL_OCI=1 && \
+cat key.json | helm registry login cr.yandex --username 'json_key' --password-stdin && \
+helm pull oci://cr.yandex/yc-marketplace/yandex-cloud/yc-alb-ingress/yc-alb-ingress-controller-chart \
+  --version v0.1.22 \
+  --untar && \
+helm install \
+  --namespace alb \
+  --create-namespace \
+  --set folderId=b1gnjt4tv12ioq5lvflm \
+  --set clusterId=catqsvjdbcss9kdbscee \
+  --set-file saKeySecretKey=key.json \
+  yc-alb-ingress-controller ./yc-alb-ingress-controller-chart/ && \
+  rm -r yc-alb-ingress-controller-chart
+
+#Обновить все ид в ingress
+kubectl apply -f ./deployment.yml
+kubectl apply -f ./services.yml
+kubectl apply -f ./ingress.yml
