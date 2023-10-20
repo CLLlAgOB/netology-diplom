@@ -39,7 +39,13 @@ jobs:
         run: |
           mkdir -p ~/.kube
           echo "$KUBE_CONFIG_DATA" > ~/.kube/config
-
+      - name: Install qbec
+        run: |
+          curl -L https://github.com/splunk/qbec/releases/download/v0.15.2/qbec-linux-amd64 -o qbec
+          chmod +x ./qbec
+          sudo mv ./qbec /usr/local/bin/qbec
+          qbec version
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f netology-diplom/qbec/web/components/website.jsonnet
+          kubectl cluster-info
+          qbec apply ./qbec/web/components/website.jsonnet
