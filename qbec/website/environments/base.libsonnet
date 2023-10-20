@@ -4,10 +4,10 @@
   components: {
     website: {
       name: 'nginxnetology',
-      image: 'clllagob/nginxnetology:v0.1',
+      image: 'clllagob/nginxnetology:latest',
       replicas: 1,
       containerPort: 80,
-      servicePort: 30081,
+      servicePort: 80,
       nodeSelector: {},
       tolerations: [],
       ingressClass: 'nginx',

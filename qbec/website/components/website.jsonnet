@@ -28,7 +28,7 @@ local params = p.components.website;
           containers: [
             {
               name: 'myapp',
-              image: 'clllagob/nginxnetology:v0.1',
+              image: 'clllagob/nginxnetology:latest',
               ports: [
                 {
                   containerPort: 80,
