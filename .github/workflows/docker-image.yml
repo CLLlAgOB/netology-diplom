@@ -25,10 +25,7 @@ jobs:
         run: |
           echo $DOCKERHUB_TOKEN | docker login --username $DOCKERHUB_USERNAME --password-stdin
           pwd
-          ls -la
-          cd ./work/netology-diplom/netology-diplom/Docker
-          ls -la
-          pwd
+          cd ./Docker
           docker build -t clllagob/nginxnetology:latest .
           docker push clllagob/nginxnetology:latest
 
