@@ -18,7 +18,8 @@ jobs:
           mkdir bin
           cd bin
           curl -L https://github.com/splunk/qbec/releases/download/v0.15.2/qbec-darwin-amd64.tar.gz -o qbec.tar.gz
-          tar -xzf qbec.tar.gz qbec 
+          tar -xzf qbec.tar.gz qbec
+          chmod +x ./qbec
           ./qbec version
       - name: Deploy to Kubernetes
         run: |
