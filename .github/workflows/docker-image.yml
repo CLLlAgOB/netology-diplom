@@ -57,4 +57,5 @@ jobs:
       - name: Deploy to Kubernetes
         run: |
           kubectl cluster-info
-          qbec apply ./qbec/website/components/website.jsonnet
+          cd ./qbec/website/components/
+          qbec apply default
