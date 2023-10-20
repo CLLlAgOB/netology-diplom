@@ -28,7 +28,11 @@ jobs:
           cd ./Docker
           docker build -t clllagob/nginxnetology:latest .
           docker push clllagob/nginxnetology:latest
-
+      - name: Install Yandex.Cloud CLI
+        run: |
+          curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
+          exec -l $SHELL
+          yc -v
       - name: Configure kubectl
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
@@ -38,4 +42,4 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f netology-diplom/qbec/ingress/components/ingress.jsonnet
+          kubectl apply -f netology-diplom/qbec/web/components/website.jsonnet
