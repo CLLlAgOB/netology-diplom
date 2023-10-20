@@ -15,14 +15,11 @@ jobs:
   
       - name: Install qbec
         run: |
+          mkdir bin
+          cd bin
           curl -L https://github.com/splunk/qbec/releases/download/v0.15.2/qbec-darwin-amd64.tar.gz -o qbec.tar.gz
-          ls -la
-          pwd
           tar -xzf qbec.tar.gz qbec 
-          rm qbec.tar.gz 
-      - name: check qbec
-        run: |
-          ./qbec version
+          qbec version
       - name: Deploy to Kubernetes
         run: |
           kubectl cluster-info
