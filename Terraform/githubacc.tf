@@ -8,7 +8,7 @@ resource "yandex_iam_service_account_key" "github_actions_key" {
 }
 
 # Assign "editor" role to Kubernetes service account
-resource "yandex_resourcemanager_folder_iam_binding" "editor" {
+resource "yandex_resourcemanager_folder_iam_binding" "github_actions_editor" {
   folder_id = var.folder_id
   role      = "editor"
   members = [
@@ -17,7 +17,7 @@ resource "yandex_resourcemanager_folder_iam_binding" "editor" {
 }
 
 # Assign "container-registry.images.pusher" role to Kubernetes service account
-resource "yandex_resourcemanager_folder_iam_binding" "images-puller" {
+resource "yandex_resourcemanager_folder_iam_binding" "github_actions_images_puller" {
   folder_id = var.folder_id
   role      = "container-registry.images.pusher"
   members = [
@@ -26,7 +26,7 @@ resource "yandex_resourcemanager_folder_iam_binding" "images-puller" {
 }
 
 locals {
-  key_json = jsonencode({
+  github_actions_key_json = jsonencode({
     id             = yandex_iam_service_account_key.github_actions_key.id,
     service_account_id = yandex_iam_service_account.github_actions.id,
     created_at     = yandex_iam_service_account_key.github_actions_key.created_at,
@@ -37,5 +37,5 @@ locals {
 }
 
 output "github_actions_key" {
-  value = nonsensitive(local.key_json)
+  value = nonsensitive(local.github_actions_key_json)
 }
