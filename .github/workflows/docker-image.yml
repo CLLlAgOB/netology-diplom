@@ -21,7 +21,7 @@ jobs:
           tar -xzf qbec.tar.gz qbec
           chmod +x ./qbec 
           ./qbec version
-          mv ./qbec /usr/bin/qbec
+          sudo mv ./qbec /usr/bin/qbec
       - name: Deploy to Kubernetes
         run: |
           kubectl cluster-info
