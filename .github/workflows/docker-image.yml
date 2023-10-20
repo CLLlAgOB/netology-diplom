@@ -41,9 +41,9 @@ jobs:
           echo "$KUBE_CONFIG_DATA" > ~/.kube/config
       - name: Install qbec
         run: |
-          curl -L https://github.com/splunk/qbec/releases/download/v0.15.2/qbec-linux-amd64 -o qbec
-          chmod +x ./qbec
-          sudo mv ./qbec /usr/local/bin/qbec
+          curl -L https://github.com/splunk/qbec/releases/download/v0.15.2/qbec-darwin-amd64.tar.gz -o qbec.tar.gz
+          tar -xzf qbec.tar.gz qbec
+          sudo mv qbec /usr/local/bin
           qbec version
       - name: Deploy to Kubernetes
         run: |
