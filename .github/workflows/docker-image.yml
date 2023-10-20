@@ -22,10 +22,8 @@ jobs:
           rm qbec.tar.gz 
       - name: check qbec
         run: |
-          cd ./qbec 
           ./qbec version
       - name: Deploy to Kubernetes
         run: |
-          cd ./qbec
           kubectl cluster-info
           qbec apply ./qbec/web/components/website.jsonnet
