@@ -39,13 +39,23 @@ jobs:
         run: |
           mkdir -p ~/.kube
           echo "$KUBE_CONFIG_DATA" > ~/.kube/config
+      - name: Configure yc
+        env:
+          YC_CONFIG_DATA: ${{ secrets.YC_CONFIG_DATA }}
+        run: |
+          mkdir -p ~/.config/yandex-cloud/
+          echo "$YC_CONFIG_DATA" > ~/.config/yandex-cloud/config.yaml
       - name: Install qbec
         run: |
-          curl -L https://github.com/splunk/qbec/releases/download/v0.15.2/qbec-linux-amd64 -o qbec
-          chmod +x ./qbec
-          sudo mv ./qbec /usr/local/bin/qbec
+          mkdir bin
+          cd bin
+          curl -L https://github.com/splunk/qbec/releases/download/v0.15.2/qbec-linux-amd64.tar.gz -o qbec.tar.gz
+          tar -xzf qbec.tar.gz qbec
+          chmod +x ./qbec 
+          sudo mv ./qbec /usr/bin/qbec
           qbec version
       - name: Deploy to Kubernetes
         run: |
           kubectl cluster-info
-          qbec apply ./qbec/web/components/website.jsonnet
+          cd ./qbec/website/components/
+          qbec apply default --yes
