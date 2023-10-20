@@ -1,0 +1,51 @@
+name: Build and Deploy Docker
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build and push
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          echo $DOCKERHUB_TOKEN | docker login --username $DOCKERHUB_USERNAME --password-stdin
+          pwd
+          cd ./Docker
+          docker build -t clllagob/nginxnetology:latest .
+          docker push clllagob/nginxnetology:latest
+      - name: Install Yandex.Cloud CLI
+        run: |
+          curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
+          exec -l $SHELL
+          yc -v
+      - name: Configure kubectl
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        run: |
+          mkdir -p ~/.kube
+          echo "$KUBE_CONFIG_DATA" > ~/.kube/config
+      - name: Install qbec
+        run: |
+          curl -L https://github.com/splunk/qbec/releases/download/v0.15.2/qbec-linux-amd64 -o qbec
+          chmod +x ./qbec
+          sudo mv ./qbec /usr/local/bin/qbec
+          qbec version
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl cluster-info
+          qbec apply ./qbec/web/components/website.jsonnet
