@@ -42,10 +42,13 @@ jobs:
       - name: Install qbec
         run: |
           curl -L https://github.com/splunk/qbec/releases/download/v0.15.2/qbec-darwin-amd64.tar.gz -o qbec.tar.gz
-          tar -xzf qbec.tar.gz /usr/local/bin/qbec
+          tar -xzf qbec.tar.gz -C ./qbec qbec
+          ls -la /usr/local 
           rm qbec.tar.gz
+          cd ./qbec
           qbec version
       - name: Deploy to Kubernetes
         run: |
+          cd ./qbec
           kubectl cluster-info
           qbec apply ./qbec/web/components/website.jsonnet
