@@ -16,7 +16,7 @@ jobs:
       - name: Install qbec
         run: |
           curl -L https://github.com/splunk/qbec/releases/download/v0.15.2/qbec-darwin-amd64.tar.gz -o qbec.tar.gz
-          la -la
+          ls -la
           pwd
           tar -xzf qbec.tar.gz -C ./qbec qbec 
           rm qbec.tar.gz 
