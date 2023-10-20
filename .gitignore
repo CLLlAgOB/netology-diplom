@@ -8,5 +8,6 @@ terraform.rc
 .terraform.lock.hcl
 .vagrant
 **/key.json
-/HIDE/
-**/kube-prometheus-main/*
+kube-prometheus-main/*
+
+
