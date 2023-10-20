@@ -39,6 +39,12 @@ jobs:
         run: |
           mkdir -p ~/.kube
           echo "$KUBE_CONFIG_DATA" > ~/.kube/config
+      - name: Configure yc
+        env:
+          YC_CONFIG_DATA: ${{ secrets.YC_CONFIG_DATA }}
+        run: |
+          mkdir -p ~/.config/yandex-cloud/
+          echo "$YC_CONFIG_DATA" > ~/.config/yandex-cloud/config.yaml
       - name: Install qbec
         run: |
           mkdir bin
