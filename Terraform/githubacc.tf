@@ -1,7 +1,3 @@
-provider "yandex" {
-  token = var.token
-}
-
 resource "yandex_iam_service_account" "github_actions" {
   name        = "github-actions"
   description = "Service account for GitHub Actions"
