@@ -29,8 +29,14 @@ jobs:
           echo $DOCKERHUB_TOKEN | docker login --username $DOCKERHUB_USERNAME --password-stdin
           pwd
           cd ./Docker
-          docker build -t clllagob/nginxnetology:${GITHUB_REF##*/} . # Используем тег при сборке образа
-          docker push clllagob/nginxnetology:${GITHUB_REF##*/} # Пушим образ с тегом
+          if [ -z "$GITHUB_REF" ]; then
+            docker build -t clllagob/nginxnetology:latest .
+            docker push clllagob/nginxnetology:latest
+          else
+            docker build -t clllagob/nginxnetology:${GITHUB_REF##*/} .
+            docker push clllagob/nginxnetology:${GITHUB_REF##*/}
+          fi
+
       - name: Install Yandex.Cloud CLI
         run: |
           curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
