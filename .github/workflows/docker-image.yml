@@ -6,8 +6,6 @@ on:
       - main
     paths:
         - 'Docker/**' # Ограничиваем запуск workflow только изменениями в папке Docker
-    release:
-      types: [created] # Событие создания нового тега
 
 jobs:
   build:
