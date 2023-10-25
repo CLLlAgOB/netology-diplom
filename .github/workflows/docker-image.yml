@@ -52,8 +52,8 @@ jobs:
           curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
           exec -l $SHELL
           yc -v
-          find / -name "yc" -type f 2>/dev/null
-
+          pwd
+          ls -la
 
       - name: Configure kubectl
         run: |
