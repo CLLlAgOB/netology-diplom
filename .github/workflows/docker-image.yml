@@ -6,7 +6,8 @@ on:
       - main
     paths:
         - 'Docker/**' # Ограничиваем запуск workflow только изменениями в папке Docker
-
+    tags:
+        - 'v*.*.*'
 jobs:
   build:
     if: startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main' # Проверка, что коммит с тегом соответствует формату 'v*' или 'main'
