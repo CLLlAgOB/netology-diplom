@@ -5,9 +5,9 @@ on:
     branches:
       - main
     paths:
-      - 'Docker/**' # Ограничиваем запуск workflow только изменениями в папке Docker
-  release:
-    types: [created] # Событие создания нового тега
+        - 'Docker/**' # Ограничиваем запуск workflow только изменениями в папке Docker
+    release:
+      types: [created] # Событие создания нового тега
 
 jobs:
   build:
@@ -45,8 +45,8 @@ jobs:
           echo $DOCKERHUB_TOKEN | docker login --username $DOCKERHUB_USERNAME --password-stdin
           pwd
           cd ./Docker
-          docker build -t clllagob/nginxnetology:${VERSION} .
-          docker push clllagob/nginxnetology:${VERSION}
+          docker build -t clllagob/nginxnetology:${{ steps.set_version.outputs.VERSION }} .
+          docker push clllagob/nginxnetology:${{ steps.set_version.outputs.VERSION }}
 
       - name: Install Yandex.Cloud CLI
         run: |
