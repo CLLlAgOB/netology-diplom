@@ -28,7 +28,7 @@ local params = p.components.website;
           containers: [
             {
               name: 'myapp',
-              image: 'clllagob/nginxnetology:latest',
+              image: 'clllagob/nginxnetology:' + params.imageTag, // Используется параметр imageTag
               ports: [
                 {
                   containerPort: 80,

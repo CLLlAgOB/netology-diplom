@@ -55,7 +55,7 @@
           "ingress.alb.yc.io/subnets": "b0c2ohkdo7mos7c4q4td,e2l43ls9pjruvspkr0g4,e9b0lf0ujacgvpdbk3ph",
           "ingress.alb.yc.io/security-groups": "enpsf86dkkfbrcbeelmq",
           "ingress.alb.yc.io/external-ipv4-address": "auto",
-          "ingress.alb.yc.io/prefix-rewrite": "/"
+          "ingress.alb.yc.io/prefix-rewrite": ""
         }
       },
       "spec": {

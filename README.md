@@ -27,3 +27,16 @@
 Так как я использую GitHub, я решил попробовать GitHub Actions. Ссылка на [файл автоматизации](https://github.com/CLLlAgOB/netology-diplom/blob/main/.github/workflows/docker-image.yml). Ниже представлен скриншот работы.
 
 ![скрин](img/d02.png)
+
+
+### 6. Заметки.
+
+Так как я использую прерываемые ресурсы то каждые сутки кластер "ломается"
+Для того что бы его починить надо удалить все завершенные контейнеры и один с ошибкой а так же удалить днс контейнера(для того что бы они заново создались).
+Так же сбрасывается в дефолт графана так как ее база находится на поде. В продакшене я бы вывел эту базу на HA MySQL сервер. Или подмонтировал бы встроенную базу на какой нибудь HA сервер NAS.
+
+```shell
+kubectl delete pods --field-selector=status.phase==Succeeded -A
+kubectl delete pods --field-selector=status.phase==Failed -A
+kubectl get pods -n kube-system | grep coredns- | awk '{print $1}' | xargs kubectl delete pods -n kube-system
+```
