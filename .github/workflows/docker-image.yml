@@ -15,7 +15,6 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      GITHUB_REF_VERSION: ${{ steps.set_version.outputs.VERSION }}
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
       KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
