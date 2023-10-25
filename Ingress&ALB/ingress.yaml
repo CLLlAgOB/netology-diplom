@@ -5,8 +5,8 @@ metadata:
   namespace: default
   annotations:
     ingress.alb.yc.io/group-name: default
-    ingress.alb.yc.io/subnets: b0c2ohkdo7mos7c4q4td,e2l43ls9pjruvspkr0g4,e9b0lf0ujacgvpdbk3ph
-    ingress.alb.yc.io/security-groups: enpsf86dkkfbrcbeelmq
+    ingress.alb.yc.io/subnets: b0c3pdkrh2f22e2nsjpv,e2lgtdq0mse55ubjk4n6,e9bhqts45bp1ieb1u3mv
+    ingress.alb.yc.io/security-groups: enpplm1qnegl4kcobph3
     ingress.alb.yc.io/external-ipv4-address: auto
     ingress.alb.yc.io/prefix-rewrite: "/"
 spec:
@@ -33,8 +33,8 @@ metadata:
   namespace: monitoring
   annotations:
     ingress.alb.yc.io/group-name: default
-    ingress.alb.yc.io/subnets: b0c2ohkdo7mos7c4q4td,e2l43ls9pjruvspkr0g4,e9b0lf0ujacgvpdbk3ph
-    ingress.alb.yc.io/security-groups: enpsf86dkkfbrcbeelmq
+    ingress.alb.yc.io/subnets: b0c3pdkrh2f22e2nsjpv,e2lgtdq0mse55ubjk4n6,e9bhqts45bp1ieb1u3mv
+    ingress.alb.yc.io/security-groups: enpplm1qnegl4kcobph3
     ingress.alb.yc.io/external-ipv4-address: auto
     ingress.alb.yc.io/prefix-rewrite: ""
 spec:
