@@ -4,6 +4,6 @@ data "template_file" "instance_userdata" {
   vars = {
     env        = "perf"
     username   = var.username
-    ssh_public = var.public_key #file(var.public_key)
+    ssh_public = var.public_key
   }
 }

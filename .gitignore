@@ -9,5 +9,5 @@ terraform.rc
 .vagrant
 **/key.json
 kube-prometheus-main/*
-
+**/HIDE/**
 
