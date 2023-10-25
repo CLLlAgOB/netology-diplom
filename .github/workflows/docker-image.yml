@@ -65,4 +65,5 @@ jobs:
       - name: Deploy to Kubernetes
         run: |
           cd ./app/
+          kubectl delete -f myapp.yaml
           kubectl apply -f myapp.yaml
