@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginxnetology
+  name: nginxnetology
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginxnetology
+  template:
+    metadata:
+      labels:
+        app: nginxnetology
+    spec:
+      containers:
+      - name: myapp
+        image: clllagob/nginxnetology:${VERSION} # 
+        ports:
+        - containerPort: 80
+      nodeSelector: {}
+      tolerations: []
+      imagePullSecrets:
+      - name: regsecret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginxnetology
+  name: nginxnetology-service
+spec:
+  selector:
+    app: nginxnetology
+  type: NodePort
+  ports:
+  - name: httpc
+    port: 80
+    targetPort: 80
+    protocol: TCP
+    nodePort: 30081

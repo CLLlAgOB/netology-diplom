@@ -28,7 +28,7 @@ local params = p.components.website;
           containers: [
             {
               name: 'myapp',
-              image: 'clllagob/nginxnetology:' + params.imageTag, // Используется параметр imageTag
+              image: 'clllagob/nginxnetology:v0.1',
               ports: [
                 {
                   containerPort: 80,
@@ -48,7 +48,7 @@ local params = p.components.website;
     kind: 'Service',
     metadata: {
       labels: { app: params.name },
-      name: params.name + '-service',
+      name: params.name,
     },
     spec: {
       selector: {

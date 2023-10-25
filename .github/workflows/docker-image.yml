@@ -11,9 +11,30 @@ on:
 
 jobs:
   build:
+    if: startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/tags/main' # Проверка, что коммит с тегом соответствует формату 'v*' или 'main'
     runs-on: ubuntu-latest
 
+    env:
+      GITHUB_REF_VERSION: ${{ steps.set_version.outputs.VERSION }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      YC_CONFIG_DATA: ${{ secrets.YC_CONFIG_DATA }}
+
     steps:
+      - name: Debug
+        run: |
+          echo "GitHub Ref: ${{ github.ref }}"
+
+      - name: Set version
+        id: set_version
+        run: |
+          if [[ $GITHUB_REF == */v* ]]; then
+            echo "::set-output name=VERSION::${GITHUB_REF##*/}"
+          else
+            echo "::set-output name=VERSION::latest"
+          fi
+
       - name: Checkout repository
         uses: actions/checkout@v2
 
@@ -21,49 +42,30 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       - name: Build and push
-        env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-          GITHUB_REF: ${{ github.ref }} # Получаем значение тега
         run: |
           echo $DOCKERHUB_TOKEN | docker login --username $DOCKERHUB_USERNAME --password-stdin
           pwd
           cd ./Docker
-          if [ -z "$GITHUB_REF" ]; then
-            docker build -t clllagob/nginxnetology:latest .
-            docker push clllagob/nginxnetology:latest
-          else
-            docker build -t clllagob/nginxnetology:${GITHUB_REF##*/} .
-            docker push clllagob/nginxnetology:${GITHUB_REF##*/}
-          fi
+          docker build -t clllagob/nginxnetology:${VERSION} .
+          docker push clllagob/nginxnetology:${VERSION}
 
       - name: Install Yandex.Cloud CLI
         run: |
           curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
           exec -l $SHELL
           yc -v
+
       - name: Configure kubectl
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         run: |
           mkdir -p ~/.kube
           echo "$KUBE_CONFIG_DATA" > ~/.kube/config
+
       - name: Configure yc
-        env:
-          YC_CONFIG_DATA: ${{ secrets.YC_CONFIG_DATA }}
         run: |
           mkdir -p ~/.config/yandex-cloud/
           echo "$YC_CONFIG_DATA" > ~/.config/yandex-cloud/config.yaml
-      - name: Install qbec
-        run: |
-          mkdir bin
-          cd bin
-          curl -L https://github.com/splunk/qbec/releases/download/v0.15.2/qbec-linux-amd64.tar.gz -o qbec.tar.gz
-          tar -xzf qbec.tar.gz qbec
-          chmod +x ./qbec 
-          sudo mv ./qbec /usr/bin/qbec
-          qbec version
+
       - name: Deploy to Kubernetes
         run: |
-          cd ./qbec/website/components/
-          qbec apply default --ext-str imageTag="${GITHUB_REF##*/}" --yes # Используем тег для деплоя в Kubernetes
+          cd ./app/
+          kubectl apply -f myapp.yaml
