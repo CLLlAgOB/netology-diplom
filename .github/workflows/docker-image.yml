@@ -66,4 +66,5 @@ jobs:
         run: |
           cd ./app/
           kubectl delete -f myapp.yaml
-          kubectl apply -f myapp.yaml
+          export VERSION=latest
+          envsubst < myapp.yaml | kubectl apply -f -
