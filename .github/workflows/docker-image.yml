@@ -51,7 +51,7 @@ jobs:
         run: |
           curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
           exec -l $SHELL
-          yc -v
+          #yc -v
           pwd
           ls -la
 
