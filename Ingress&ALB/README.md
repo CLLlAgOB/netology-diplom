@@ -3,8 +3,8 @@
 ### Полезные ссылки:
 - Примеры от [Яндекс.Облака](https://github.com/yandex-cloud/examples/blob/master/tutorials/terraform/managed-kubernetes/k8s-and-registry-for-alb.tf).
 - [Установка Ingress-контроллера Application Load Balancer](https://cloud.yandex.ru/docs/managed-kubernetes/operations/applications/alb-ingress-controller).
-- Неофициальные инструкции [Телеграф](https://teletype.in/@cameda/3n75CiuRGB-?ysclid=lmwhr2k5hk738596468).
-- Неофициальные инструкции [Телеграф](https://teletype.in/@cameda/NGvCl3lZrgB).
+- Неофициальные инструкции [Teletype](https://teletype.in/@cameda/3n75CiuRGB-?ysclid=lmwhr2k5hk738596468).
+- Неофициальные инструкции [Teletype](https://teletype.in/@cameda/NGvCl3lZrgB).
 
 ### Шаги по установке:
 
@@ -50,14 +50,14 @@
       rm -r yc-alb-ingress-controller-chart
     ```
 
-6. **Разворачиваем структуру с помощью qbec в формате jsonnet:**
+6. **Разворачиваем структуру с помощью kubeclt в формате yaml:**
 
     Путь к файлу ingress.jsonnet:
     ```
-    netology-diplom\qbec\ingress\components\ingress.jsonnet
+    netology-diplom\Ingress&ALB\ingress.yaml
     ```
 
-    Необходимо указать правильно все id требуемых ресурсов в файле ingress.jsonnet.
+    Необходимо указать правильно все id требуемых ресурсов в файле ingress.yaml.
 
     ```jsonnet
     "ingress.alb.yc.io/subnets": "b0c2ohkdo7mos7c4q4td,e2l43ls9pjruvspkr0g4,e9b0lf0ujacgvpdbk3ph",
@@ -69,11 +69,10 @@
     Затем запустите:
 
     ```shell
-    aleksandr@R2D2:/netology-diplom/qbec/ingress$ qbec apply default
+    kubectl apply -f ./ingress.yaml
     ```
 
     После запуска на кластере будет создаваться балансировщик, это займет продолжительное время.
 
 ---
-
 Пожалуйста, убедитесь, что все идентификаторы и ключи заменены на действительные значения перед выполнением команд.
