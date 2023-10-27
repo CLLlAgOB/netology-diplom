@@ -69,5 +69,5 @@ jobs:
       - name: Deploy to Kubernetes
         run: |
           cd ./app/nginxnetology/
-          helm upgrade latest . --set image.tag=${{ steps.set_version.outputs.VERSION }} --force
+          helm upgrade latest . --set image.tag=${{ steps.set_version.outputs.VERSION }} --recreate-pods
 
