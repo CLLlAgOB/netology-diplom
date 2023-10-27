@@ -1,6 +1,3 @@
-
-
-
 resource "yandex_iam_service_account" "k8s-sa" {
   description = "Service account to manage the Kubernetes cluster and node group"
   name        = local.sa_name
@@ -35,7 +32,7 @@ resource "yandex_kubernetes_cluster" "k8s-regional" {
     regional {
       region = "ru-central1"
       dynamic "location" {
-        for_each = toset(yandex_vpc_subnet.public-subnet[*].id)
+        for_each = toset(range(length(yandex_vpc_subnet.public-subnet[*].id)))
         content {
           zone      = yandex_vpc_subnet.public-subnet[location.value].zone
           subnet_id = yandex_vpc_subnet.public-subnet[location.value].id
@@ -66,40 +63,13 @@ resource "yandex_logging_group" "logging-group" {
 
 resource "yandex_iam_service_account" "sa-alb" {
   description = "Service account for the ALB ingress controller to run"
-  name        = var.sa_alb
+  name        = local.sa_alb
 }
 
-# Assign "alb.editor" role to service account
-resource "yandex_resourcemanager_folder_iam_binding" "alb-editor" {
+resource "yandex_resourcemanager_folder_iam_binding" "custom_roles" {
+  for_each  = local.roles
   folder_id = var.folder_id
-  role      = "alb.editor"
-  members = [
-    "serviceAccount:${yandex_iam_service_account.sa-alb.id}"
-  ]
-}
-
-# Assign "vpc.publicAdmin" role to service account
-resource "yandex_resourcemanager_folder_iam_binding" "vpc-publicAdmin" {
-  folder_id = var.folder_id
-  role      = "vpc.publicAdmin"
-  members = [
-    "serviceAccount:${yandex_iam_service_account.sa-alb.id}"
-  ]
-}
-
-# Assign "certificate-manager.certificates.downloader" role to service account
-resource "yandex_resourcemanager_folder_iam_binding" "certificates-downloader" {
-  folder_id = var.folder_id
-  role      = "certificate-manager.certificates.downloader"
-  members = [
-    "serviceAccount:${yandex_iam_service_account.sa-alb.id}"
-  ]
-}
-
-# Assign "compute.viewer" role to service account
-resource "yandex_resourcemanager_folder_iam_binding" "compute-viewer" {
-  folder_id = var.folder_id
-  role      = "compute.viewer"
+  role      = each.value
   members = [
     "serviceAccount:${yandex_iam_service_account.sa-alb.id}"
   ]
@@ -107,7 +77,7 @@ resource "yandex_resourcemanager_folder_iam_binding" "compute-viewer" {
 
 resource "yandex_iam_service_account_key" "sa-auth-key" {
   description        = "Authorized key for service accaunt"
-  service_account_id = yandex_iam_service_account.sa-alb.id
+  service_account_id = yandex_iam_service_account.k8s-sa.id
 }
 
 output "key-json" {

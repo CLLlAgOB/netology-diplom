@@ -10,4 +10,3 @@ terraform.rc
 **/key.json
 kube-prometheus-main/*
 **/HIDE/**
-

@@ -22,10 +22,6 @@ variable "sa_name" {
   default = "svc-k8s"
 }
 
-variable "sa_alb" {
-  type    = string
-  default = "sa-alb"
-}
 variable "sa_token" {
   description = "Service Account Token"
   type        = string
@@ -37,5 +33,5 @@ variable "folder_id" {
 }
 
 variable "public_key" {
-  type    = string
- }
+  type = string
+}

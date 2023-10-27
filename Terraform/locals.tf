@@ -20,6 +20,12 @@ locals {
   k8s_cluster_name         = "k8s-regional"              # Name of the Kubernetes cluster
   k8s_node_group_name      = "k8s-node-group"            # Name of the Kubernetes node group
   zone_abc_v4_cidr_blocks  = "10.0.0.0/8"                # CIDR block for the subnet in the ru-central1-a availability zone
+  roles = {                                              # k8s-sa Roles
+    "alb.editor"                                  = "alb.editor"
+    "vpc.publicAdmin"                             = "vpc.publicAdmin"
+    "certificate-manager.certificates.downloader" = "certificate-manager.certificates.downloader"
+    "compute.viewer"                              = "compute.viewer"
+  }
 }
 
 # сохраняем ключик через output для создание ingressom ALB.
