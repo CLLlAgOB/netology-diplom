@@ -24,6 +24,7 @@ resource "yandex_resourcemanager_folder_iam_binding" "images-puller" {
   ]
 }
 
+
 resource "yandex_kubernetes_cluster" "k8s-regional" {
   description = "Managed Service for Kubernetes cluster"
   name        = local.k8s_cluster_name
@@ -33,32 +34,28 @@ resource "yandex_kubernetes_cluster" "k8s-regional" {
     version = local.k8s_version
     regional {
       region = "ru-central1"
-      location {
-        zone      = yandex_vpc_subnet.public-subnet[0].zone
-        subnet_id = yandex_vpc_subnet.public-subnet[0].id
-      }
-      location {
-        zone      = yandex_vpc_subnet.public-subnet[1].zone
-        subnet_id = yandex_vpc_subnet.public-subnet[1].id
-      }
-      location {
-        zone      = yandex_vpc_subnet.public-subnet[2].zone
-        subnet_id = yandex_vpc_subnet.public-subnet[2].id
+      dynamic "location" {
+        for_each = toset(yandex_vpc_subnet.public-subnet[*].id)
+        content {
+          zone      = yandex_vpc_subnet.public-subnet[location.value].zone
+          subnet_id = yandex_vpc_subnet.public-subnet[location.value].id
+        }
       }
     }
 
-    public_ip = true
-
+    public_ip          = true
     security_group_ids = [yandex_vpc_security_group.k8s-main-sg.id]
-
   }
-  service_account_id      = yandex_iam_service_account.k8s-sa.id # Cluster service account ID
-  node_service_account_id = yandex_iam_service_account.k8s-sa.id # Node group service account ID
+
+  service_account_id      = yandex_iam_service_account.k8s-sa.id
+  node_service_account_id = yandex_iam_service_account.k8s-sa.id
+
   depends_on = [
     yandex_resourcemanager_folder_iam_binding.editor,
     yandex_resourcemanager_folder_iam_binding.images-puller
   ]
 }
+
 
 resource "yandex_logging_group" "logging-group" {
   description = "Cloud Logging group"
