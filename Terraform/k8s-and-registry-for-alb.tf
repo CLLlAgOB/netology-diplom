@@ -32,10 +32,10 @@ resource "yandex_kubernetes_cluster" "k8s-regional" {
     regional {
       region = "ru-central1"
       dynamic "location" {
-        for_each = toset(range(length(yandex_vpc_subnet.public-subnet[*].id)))
+        for_each = yandex_vpc_subnet.public-subnet[*]
         content {
-          zone      = yandex_vpc_subnet.public-subnet[location.value].zone
-          subnet_id = yandex_vpc_subnet.public-subnet[location.value].id
+          zone      = location.value.zone  
+          subnet_id = location.value.id
         }
       }
     }

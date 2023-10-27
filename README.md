@@ -16,7 +16,8 @@
 
 ### 3. Создание тестового приложения
 
-Это статичная веб-страничка, поднятая на Nginx. Ссылка на [репозиторий приложения](https://github.com/CLLlAgOB/netology-diplom/tree/main/Docker). Для развертывания использованы файлы yaml, доступные [здесь](https://github.com/CLLlAgOB/netology-diplom/tree/main/app/). Приложение доступно по ссылке: [https://prod.clllagob.ru/myapp](https://prod.clllagob.ru/myapp).
+Это статичная веб-страничка, поднятая на Nginx. Ссылка на [репозиторий приложения](https://github.com/CLLlAgOB/netology-diplom/tree/main/Docker). Для развертывания использован helm, файлы доступны [здесь](https://github.com/CLLlAgOB/netology-diplom/tree/main/app/nginxnetology/). Приложение доступно по ссылке: [https://prod.clllagob.ru/myapp](https://prod.clllagob.ru/myapp).
+
 
 ### 4. Подготовка системы мониторинга и деплой приложения
 
