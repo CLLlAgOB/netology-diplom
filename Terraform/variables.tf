@@ -38,4 +38,4 @@ variable "folder_id" {
 
 variable "public_key" {
   type    = string
-}
+ }
