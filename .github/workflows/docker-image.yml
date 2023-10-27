@@ -62,9 +62,12 @@ jobs:
           mkdir -p ~/.config/yandex-cloud/
           echo "$YC_CONFIG_DATA" > ~/.config/yandex-cloud/config.yaml
 
+      - name: install helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
       - name: Deploy to Kubernetes
         run: |
-          cd ./app/
-          kubectl delete -f myapp.yaml
-          export VERSION=latest
-          envsubst < myapp.yaml | kubectl apply -f -
+          cd ./app/nginxnetology/
+          helm upgrade latest . --set image.tag=${{ steps.set_version.outputs.VERSION }}
+
