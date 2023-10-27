@@ -62,9 +62,9 @@ jobs:
           mkdir -p ~/.config/yandex-cloud/
           echo "$YC_CONFIG_DATA" > ~/.config/yandex-cloud/config.yaml
 
-      - name: install helm
-        run: |
-          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+      # - name: install helm
+      #   run: |
+      #     curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
       - name: Deploy to Kubernetes
         run: |

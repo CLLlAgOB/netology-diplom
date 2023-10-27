@@ -40,8 +40,6 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-          strategy:
-            type: Recreate
           livenessProbe:
             httpGet:
               path: /
