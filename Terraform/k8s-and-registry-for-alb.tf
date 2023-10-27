@@ -37,8 +37,13 @@ resource "yandex_kubernetes_cluster" "k8s-regional" {
       dynamic "location" {
         for_each = toset(yandex_vpc_subnet.public-subnet[*].id)
         content {
+<<<<<<< HEAD
           zone      = yandex_vpc_subnet.public-subnet[location.value].zone
           subnet_id = yandex_vpc_subnet.public-subnet[location.value].id
+=======
+          zone      = yandex_vpc_subnet.public-subnet[location.key].zone
+          subnet_id = yandex_vpc_subnet.public-subnet[location.key].id
+>>>>>>> ee2a6d1d51b8651d21ab75192a61be9310e08bd3
         }
       }
     }
