@@ -77,7 +77,7 @@ resource "yandex_resourcemanager_folder_iam_binding" "custom_roles" {
 
 resource "yandex_iam_service_account_key" "sa-auth-key" {
   description        = "Authorized key for service accaunt"
-  service_account_id = yandex_iam_service_account.k8s-sa.id
+  service_account_id = yandex_iam_service_account.sa-alb.id
 }
 
 output "key-json" {
